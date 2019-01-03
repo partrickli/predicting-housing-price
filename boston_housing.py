@@ -109,11 +109,13 @@ plt.scatter(data_df['GrLivArea'], data_df['SalePrice'])
 
 #%%
 # 3.2.1 TODO 从train_df删除GrLivArea大于4000且SalePrice低于300000的值
-data_df['GrLivArea'].sort_values(ascending=True)
-
+dropIndex = data_df[(data_df['SalePrice'] < 300000) & (data_df['GrLivArea'] > 4000)].index
+data_df.drop(dropIndex, inplace=True)
+# dropIndex
 
 #%%
 # 3.2.2 TODO 重新绘制GrLivArea和SalePrice的关系图，确认异常值已删除
+plt.scatter(data_df['GrLivArea'], data_df['SalePrice'])
 
 #%% [markdown]
 # **问题3.3：筛选出过多空数据的特征，我们这个项目定为筛选出超过25%的空数据的特征**
