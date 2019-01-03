@@ -38,7 +38,7 @@ get_ipython().run_line_magic('matplotlib', 'inline')
 
 #%%
 # 1 TODO：载入波士顿房屋的数据集：使用pandas载入csv，并赋值到data_df
-
+data_df = pd.read_csv('./housedata.csv')
 
 # 成功载入的话输出训练数据行列数目
 print("Boston housing dataset has {} data points with {} variables each.".format(*data_df.shape))
@@ -52,18 +52,22 @@ print("Boston housing dataset has {} data points with {} variables each.".format
 
 #%%
 # 2.1 TODO: 打印出前5条data_df
+data_df.head()
 
 #%% [markdown]
 # **问题2.2：Id特征对我们训练数据没有任何用处，在`data_df`中删除`'Id'`列数据**
 
 #%%
 # 2.2 TODO: 删除data_df中的Id特征（保持数据仍在data_df中，不更改变量名）
+data_df = data_df.drop('Id', axis=1)
+
 
 #%% [markdown]
 # **问题2.3：使用describe方法观察`data_df`各个特征的统计信息：**
 
 #%%
 # 2.3 TODO:
+data_df.describe()
 
 #%% [markdown]
 # 由于这个项目的最终目标是建立一个预测房屋价值的模型，我们需要将数据集分为**特征(features)**和**目标变量(target variable)**。
@@ -73,6 +77,18 @@ print("Boston housing dataset has {} data points with {} variables each.".format
 # **问题2.4：通过观察数据，结合`data_description.txt`特征描述，整理出你认为跟目标变量最相关的5个特征，并进行部分解释**
 #%% [markdown]
 # 回答问题2.4：
+
+# ### 影响房价的因素：
+# - MSZoning:
+# 区域当然很重要啦，比如学区房
+# - LotArea:
+# 房子面积，太大太小都不好卖
+# - YearBuilt:
+# 房子新旧
+# - SaleType:
+# 大额支付，融资成本要考虑
+# - PoolArea:
+# 有个大泳池很诱人
 #%% [markdown]
 # ---
 # ## 第三步. 数据预处理
@@ -86,12 +102,14 @@ print("Boston housing dataset has {} data points with {} variables each.".format
 
 #%%
 # 3.1 TODO
+plt.scatter(data_df['GrLivArea'], data_df['SalePrice'])
 
 #%% [markdown]
 # **问题3.2：通过上图我们可以看到那几个异常值，即`'GrLivArea'`大于4000，但是`'SalePrice'`又极低的数据，从`data_df`删除这几个异常值，删除后重新绘制`'GrLivArea'`和`'SalePrice'`的关系图，确认异常值已删除。**
 
 #%%
 # 3.2.1 TODO 从train_df删除GrLivArea大于4000且SalePrice低于300000的值
+data_df['GrLivArea'].sort_values(ascending=True)
 
 
 #%%
