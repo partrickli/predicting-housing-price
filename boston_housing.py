@@ -181,6 +181,7 @@ data_df[column].fillna(data_df[column].median(), inplace=True)
 
 #%%
 # 4.1 TODO
+data_df['SalePrice'].plot.hist()
 
 #%% [markdown]
 # 属于正偏态，右偏态。
@@ -192,6 +193,11 @@ data_df[column].fillna(data_df[column].median(), inplace=True)
 
 #%%
 # 4.2 TODO
+plt.figure()
+plt.scatter(data_df['MSZoning'], data_df['SalePrice'])
+
+plt.figure()
+plt.scatter(data_df['LotArea'], data_df['SalePrice'])
 
 #%% [markdown]
 # ### 三、多变量客观分析（特征与目标变量的关系）
