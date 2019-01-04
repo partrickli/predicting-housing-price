@@ -158,7 +158,17 @@ fill_0 = ['GarageYrBlt']
 # 需要填充中位数的特征
 fill_median = ['LotFrontage', 'MasVnrArea']
 # 3.4.1 TODO：按需填补上面数据
+# Fill with mode 
+modeValue = data_df['Electrical'].mode()[0]
+data_df['Electrical'].fillna(modeValue, inplace=True)
 
+#%%
+data_df[fill_0[0]].fillna(0, inplace=True)
+data_df[data_df[fill_0[0]] == 0][['LotFrontage', 'GarageYrBlt']]
+
+#%% 
+# Fill with median
+data_df[column].fillna(data_df[column].median(), inplace=True)
 #%% [markdown]
 # ---
 # ## 第四步. 探索性数据分析（EDA）
