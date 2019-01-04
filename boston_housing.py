@@ -123,7 +123,12 @@ plt.scatter(data_df['GrLivArea'], data_df['SalePrice'])
 #%%
 limit_percent = 0.25
 limit_value = len(data_df) * limit_percent
+
 # 3.3.1 TODO 统计并打印出超过25%的空数据的特征
+for column in data_df.columns:
+    counts = data_df[column].value_counts(normalize=True, dropna=False)
+    if np.nan in counts and counts.loc[np.nan] > limit_percent:
+        print("column {} nan value percentage {} larger than 25%".format(column, counts.loc[np.nan]))
 
 #%% [markdown]
 # **如果你整理出的特征是`'Alley', 'FireplaceQu', 'PoolQC', 'Fence', 'MiscFeature'`，那就说明你统计对了，接着我们查看`data_description.txt`文件，就会发现，这些并非一定是空缺数据，而没有游泳池，篱笆等也会用NA来表示，那么就不需要删除这些特征了，而是用`None`来填充`NA`数据。**
