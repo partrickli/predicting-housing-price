@@ -1,4 +1,4 @@
-#%% [markdown]
+#%%
 # # 机器学习工程师纳米学位
 # ## 模型评价与验证
 # ## 项目 1: 预测波士顿房价
@@ -199,6 +199,16 @@ plt.scatter(data_df['MSZoning'], data_df['SalePrice'])
 plt.figure()
 plt.scatter(data_df['LotArea'], data_df['SalePrice'])
 
+plt.figure()
+plt.scatter(data_df['YearBuilt'], data_df['SalePrice'])
+
+plt.figure()
+plt.scatter(data_df['SaleType'], data_df['SalePrice'])
+
+plt.figure()
+plt.scatter(data_df['PoolArea'], data_df['SalePrice'])
+
+
 #%% [markdown]
 # ### 三、多变量客观分析（特征与目标变量的关系）
 #%% [markdown]
@@ -251,8 +261,10 @@ data_df[numeric_features] = scaler.transform(data_df[numeric_features])
 
 #%%
 # 6.1 
-features = #TODO：提取除了SalePrice以外的特征赋值为features
-labels = #TODO：提取SalePrice作为labels
+# features = #TODO：提取除了SalePrice以外的特征赋值为features
+features = data_df.drop('SalePrice')
+# labels = #TODO：提取SalePrice作为labels
+labels = ''
 
 #%% [markdown]
 # 接下来，你需要把波士顿房屋数据集分成训练和测试两个子集。通常在这个过程中，数据也会被重排列，以消除数据集中由于顺序而产生的偏差。
