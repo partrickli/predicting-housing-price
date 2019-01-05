@@ -262,9 +262,9 @@ data_df[numeric_features] = scaler.transform(data_df[numeric_features])
 #%%
 # 6.1 
 # features = #TODO：提取除了SalePrice以外的特征赋值为features
-features = data_df.drop('SalePrice')
+features = data_df.drop(columns='SalePrice')
 # labels = #TODO：提取SalePrice作为labels
-labels = ''
+labels = data_df['SalePrice']
 
 #%% [markdown]
 # 接下来，你需要把波士顿房屋数据集分成训练和测试两个子集。通常在这个过程中，数据也会被重排列，以消除数据集中由于顺序而产生的偏差。
@@ -278,8 +278,9 @@ labels = ''
 
 #%%
 # TODO：导入train_test_split
-
-X_train, X_test, y_train, y_test = # 6.2 TODO
+from sklearn.model_selection import train_test_split
+# 6.2 TODO
+X_train, X_test, y_train, y_test = train_test_split(features, labels, test_size = 0.2, random_state = 42)
 
 #%% [markdown]
 # **问题6.3：为什么要将数据集分为训练数据与测试数据？**
@@ -287,6 +288,7 @@ X_train, X_test, y_train, y_test = # 6.2 TODO
 # **提示：** 如果没有数据来对模型进行测试，会出现什么问题？
 #%% [markdown]
 # 回答问题6.3：
+# 为了寻找更好的模型，如果没有测试集，模型容易出现过拟合的情况。
 #%% [markdown]
 # 
 # ### **定义衡量标准**
@@ -301,10 +303,11 @@ X_train, X_test, y_train, y_test = # 6.2 TODO
 
 #%%
 # TODO： 导入r2_score
+from sklearn.metrics import r2_score
 def performance_metric(y_true, y_predict):
     """计算并返回预测值相比于预测值的分数"""
-    
-    score = # TODO 6.4
+    # TODO 6.4
+    score = r2_score(y_true, y_predict)
 
     return score
 
@@ -331,6 +334,7 @@ print("Model has a coefficient of determination, R^2, of {:.3f}.".format(score))
 
 #%% [markdown]
 # 回答问题6.4：
+# R2 score 为 0.923，非常接近1， 说明 model 拟合的很好。
 #%% [markdown]
 # ### **学习曲线**
 # 
@@ -348,6 +352,7 @@ vs.ModelLearning(X_train, y_train)
 # **提示：**学习曲线的评分是否最终会收敛到特定的值？
 #%% [markdown]
 # 回答问题6.5：
+# 选择 max_depth = 3， 应为 R2 score 逐渐converge 到一个较高的分数。
 #%% [markdown]
 # ### 复杂度曲线
 # 下列代码内的区域会输出一幅图像，它展示了一个已经经过训练和验证的决策树模型在不同最大深度条件下的表现。这个图形将包含两条曲线，一个是训练集的变化，一个是验证集的变化。跟**学习曲线**相似，阴影区域代表该曲线的不确定性，模型训练和测试部分的评分都用的 `performance_metric` 函数。
@@ -364,6 +369,10 @@ vs.ModelComplexity(X_train, y_train)
 # **提示：** 你如何得知模型是否出现了偏差很大或者方差很大的问题？
 #%% [markdown]
 # 回答问题6.6：
+# 当模型以最大深度1训练时，模型出现了很大的偏差, 因为此时训练集和测试集的分数都很低.
+# 深度为10时，出现了很大的方差，因为此时测试集和训练集的分数差距很大。
+# 深度为5时，模型能够最好地对未见过的数据进行预测。
+
 #%% [markdown]
 # ### 网格搜索
 #%% [markdown]
