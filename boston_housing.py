@@ -379,6 +379,7 @@ vs.ModelComplexity(X_train, y_train)
 # **问题 6.7：什么是网格搜索法？如何用它来优化模型？**
 #%% [markdown]
 # 回答问题6.7：
+# 网格搜索是对不同组合的超参数下，模型的优劣做评估，从而选择最佳的超参数组合。
 #%% [markdown]
 # ### 交叉验证
 #%% [markdown]
@@ -391,6 +392,9 @@ vs.ModelComplexity(X_train, y_train)
 # **提示：** 在下面 fit_model函数最后加入 `print(pd.DataFrame(grid.cv_results_))` 可以帮你查看更多信息。
 #%% [markdown]
 # 回答问题6.8：
+# - K折交叉验证法（k-fold cross-validation）, 是一种将数据分成 k 份，循环利用数据进行模型学习和验证的方法。 可以避免在将数据分成训练集和测试集时，测试集数据无法利用的问题。
+# - [GridSearchCV], 通过对每组超参数下的模型做交叉验证，打分，选取分数最高的超参数组合。
+# - [GridSearchCV], cv_results_ 可以看到每种超参数组合下，每种训练集K折数据下的得分，以及平均得分
 #%% [markdown]
 # ### 训练最优模型
 # 在这个练习中，你将需要将所学到的内容整合，使用**决策树算法**训练一个模型。为了得出的是一个最优模型，你需要使用网格搜索法训练模型，以找到最佳的 `'max_depth'` 参数。你可以把`'max_depth'` 参数理解为决策树算法在做出预测前，允许其对数据提出问题的数量。决策树是**监督学习算法**中的一种。
@@ -407,18 +411,22 @@ vs.ModelComplexity(X_train, y_train)
 
 #%%
 # 6.9 TODO 导入 'KFold' 'DecisionTreeRegressor' 'make_scorer' 'GridSearchCV' 
-
+from sklearn.model_selection import KFold
+from sklearn.tree import DecisionTreeRegressor
+from sklearn.metrics import make_scorer
+from sklearn.model_selection import GridSearchCV
 
 def fit_model(X, y):
     """ 基于输入数据 [X,y]，利于网格搜索找到最优的决策树模型"""
-    cross_validator = #TODO kfold
-    regressor = # TODO DecisionTreeRegressor
-    params = # TODO 创建字典
-    scoring_fnc = # TODO make scorer
-    grid = # TODO GridSearchCV
+    cross_validator = KFold(n_splits=10, shuffle=True)
+    regressor = DecisionTreeRegressor()
+    params = {'max_depth': [i for i in range(1, 11)]}
+    scoring_fnc = make_scorer(performance_metric)
+    grid = GridSearchCV(regressor, params, scoring=scoring_fnc, cv=cross_validator)
     # 基于输入数据 [X,y]，进行网格搜索
     grid = grid.fit(X, y)
     # 返回网格搜索后的最优模型
+    print(pd.DataFrame(grid.cv_results_))
     return grid.best_estimator_
 
 #%% [markdown]
@@ -456,4 +464,5 @@ print("The R2 score is ",score)
 # ## 选做
 #%% [markdown]
 # 至此，我们的整个训练流程基本结束，当然我们只调试了`max_depth`参数，让我们达到了上面的那个最优结果，尝试修改问题6.9中的代码，修改[更多决策树的参数](https://scikit-learn.org/stable/modules/generated/sklearn.tree.DecisionTreeRegressor.html)，来提高分数，期待你得到更好的成绩。
+
 
