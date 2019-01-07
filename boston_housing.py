@@ -395,6 +395,7 @@ vs.ModelComplexity(X_train, y_train)
 # - K折交叉验证法（k-fold cross-validation）, 是一种将数据分成 k 份，循环利用数据进行模型学习和验证的方法。 可以避免在将数据分成训练集和测试集时，测试集数据无法利用的问题。
 # - [GridSearchCV], 通过对每组超参数下的模型做交叉验证，打分，选取分数最高的超参数组合。
 # - [GridSearchCV], cv_results_ 可以看到每种超参数组合下，每种训练集K折数据下的得分，以及平均得分
+# - 不适用交叉验证，有些训练集会出现分数特别高，拟合的非常好的情况，但模型不符合整体的数据特性。交叉验证通过对各种数据组合进行测试，消除这种偶然性。
 #%% [markdown]
 # ### 训练最优模型
 # 在这个练习中，你将需要将所学到的内容整合，使用**决策树算法**训练一个模型。为了得出的是一个最优模型，你需要使用网格搜索法训练模型，以找到最佳的 `'max_depth'` 参数。你可以把`'max_depth'` 参数理解为决策树算法在做出预测前，允许其对数据提出问题的数量。决策树是**监督学习算法**中的一种。
@@ -448,7 +449,7 @@ print("Parameter 'max_depth' is {} for the optimal model.".format(optimal_reg.ge
 # **问题7.1：填入上题所确认的最优参数，查看测试结果**
 
 #%%
-depth = #填入上面的最优深度参数
+depth = 6 #填入上面的最优深度参数
 regressor = DecisionTreeRegressor(max_depth = depth)
 regressor.fit(X_train, y_train)
 y_pred = regressor.predict(X_test)
@@ -459,6 +460,7 @@ print("The R2 score is ",score)
 # **问题7.2：你刚刚计算了最优模型在测试集上的决定系数，你会如何评价这个结果？**
 #%% [markdown]
 # 回答问题7.2：
+# R2 score 为 0.76, 比较接近 1， 这个模型可以在一定程度上较好的预测结果。但还有改进的空间。
 #%% [markdown]
 # ---
 # ## 选做
